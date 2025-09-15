@@ -1,6 +1,5 @@
 # NutriVeda - Comprehensive Ayurvedic Diet Management Platform
 
-![NutriVeda Logo](public/logo192.png)
 
 [![React](https://img.shields.io/badge/React-18.0.0-blue.svg)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
@@ -330,13 +329,3 @@ Copyright (c) 2025 NutriVeda Health Technologies
 
 ---
 
-<div align="center">
-  <p><strong>Built with ❤️ for the Ayurvedic community</strong></p>
-  <p><em>Empowering practitioners to deliver personalized, science-backed, and tradition-rooted dietary care.</em></p>
-  <p>© 2025 NutriVeda Health Technologies</p>
-  <p>
-    <a href="https://github.com/Doit-Ay/nutriveda/stargazers">⭐ Star us on GitHub</a> •
-    <a href="https://nutriveda.health">Visit Website</a> •
-    <a href="mailto:support@nutriveda.com">Contact Support</a>
-  </p>
-</div>
