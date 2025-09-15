@@ -1,0 +1,99 @@
+
+import React from 'react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Tooltip,
+  Box,
+  Chip,
+} from '@mui/material';
+import { Edit, Delete, Visibility } from '@mui/icons-material';
+import { FoodItem } from '../../types';
+
+interface FoodTableViewProps {
+  foods: FoodItem[];
+  onView: (food: FoodItem) => void;
+  onEdit: (food: FoodItem) => void;
+  onDelete: (food: FoodItem) => void;
+}
+
+const getQualityColor = (quality: string): "default" | "info" | "warning" | "error" | "secondary" | "primary" | "success" => {
+    const colors: {[key: string]: "default" | "info" | "warning" | "error" | "secondary" | "primary" | "success"} = {
+        light: 'info',
+        dry: 'warning',
+        hot: 'error',
+        sharp: 'secondary',
+        oily: 'success',
+        cold: 'primary',
+        heavy: 'default',
+        liquid: 'info',
+        soft: 'secondary',
+        dense: 'primary',
+        gross: 'warning',
+        subtle: 'default',
+        static: 'primary',
+        mobile: 'success'
+    }
+    return colors[quality] || 'default'
+}
+
+const FoodTableView: React.FC<FoodTableViewProps> = ({ foods, onView, onEdit, onDelete }) => {
+  return (
+    <TableContainer component={Paper} variant="outlined">
+      <Table sx={{ minWidth: 650 }} aria-label="food items table">
+        <TableHead>
+          <TableRow>
+            <TableCell sx={{fontWeight: 'bold'}}>Name</TableCell>
+            <TableCell sx={{fontWeight: 'bold'}}>Category</TableCell>
+            <TableCell sx={{fontWeight: 'bold'}}>Taste (Rasa)</TableCell>
+            <TableCell sx={{fontWeight: 'bold'}}>Qualities (Guna)</TableCell>
+            <TableCell align="right" sx={{fontWeight: 'bold'}}>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {foods.map((food) => (
+            <TableRow key={food.id}>
+              <TableCell component="th" scope="row">
+                {food.name}
+              </TableCell>
+              <TableCell>{food.category}</TableCell>
+              <TableCell>{food.ayurvedicProperties.rasa.join(', ')}</TableCell>
+              <TableCell>
+                  <Box sx={{display: 'flex', gap: 0.5, flexWrap: 'wrap'}}>
+                    {food.ayurvedicProperties.guna.map(guna => 
+                        <Chip key={guna} label={guna} size="small" color={getQualityColor(guna)} variant="outlined"/>
+                    )}
+                  </Box>
+                </TableCell>
+              <TableCell align="right">
+                <Tooltip title="View">
+                  <IconButton onClick={() => onView(food)}>
+                    <Visibility />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Edit">
+                  <IconButton onClick={() => onEdit(food)}>
+                    <Edit />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Delete">
+                  <IconButton onClick={() => onDelete(food)}>
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
+
+export default FoodTableView;

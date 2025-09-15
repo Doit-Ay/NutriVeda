@@ -1,0 +1,107 @@
+{
+  "name": "NutriVeda Demo Workflow",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "New Patient Intake (Dietitian)",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [200, 200]
+    },
+    {
+      "id": "2",
+      "name": "Validate Profile",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [450, 200],
+      "parameters": {
+        "functionCode": "return items;"
+      }
+    },
+    {
+      "id": "3",
+      "name": "Save Patient Record",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [700, 200]
+    },
+    {
+      "id": "4",
+      "name": "Generate Diet Chart",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [950, 200],
+      "parameters": {
+        "functionCode": "return [{json:{chart:'Sample Ayurvedic Diet Chart'}}];"
+      }
+    },
+    {
+      "id": "5",
+      "name": "Export Diet Chart (PDF)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1200, 200]
+    },
+    {
+      "id": "6",
+      "name": "Send Chart to Patient",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1450, 200]
+    },
+    {
+      "id": "7",
+      "name": "Patient Access App",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [200, 500]
+    },
+    {
+      "id": "8",
+      "name": "View Diet Chart",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [450, 500]
+    },
+    {
+      "id": "9",
+      "name": "Track Progress",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [700, 500]
+    },
+    {
+      "id": "10",
+      "name": "Progress Dashboard",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [950, 500]
+    }
+  ],
+  "connections": {
+    "New Patient Intake (Dietitian)": {
+      "main": [[{ "node": "Validate Profile", "type": "main", "index": 0 }]]
+    },
+    "Validate Profile": {
+      "main": [[{ "node": "Save Patient Record", "type": "main", "index": 0 }]]
+    },
+    "Save Patient Record": {
+      "main": [[{ "node": "Generate Diet Chart", "type": "main", "index": 0 }]]
+    },
+    "Generate Diet Chart": {
+      "main": [[{ "node": "Export Diet Chart (PDF)", "type": "main", "index": 0 }]]
+    },
+    "Export Diet Chart (PDF)": {
+      "main": [[{ "node": "Send Chart to Patient", "type": "main", "index": 0 }]]
+    },
+    "Patient Access App": {
+      "main": [[{ "node": "View Diet Chart", "type": "main", "index": 0 }]]
+    },
+    "View Diet Chart": {
+      "main": [[{ "node": "Track Progress", "type": "main", "index": 0 }]]
+    },
+    "Track Progress": {
+      "main": [[{ "node": "Progress Dashboard", "type": "main", "index": 0 }]]
+    }
+  }
+}

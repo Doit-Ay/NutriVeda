@@ -1,0 +1,353 @@
+
+import React, { useState, useEffect } from 'react';
+import { useTheme } from '@mui/material/styles';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Chip,
+  Autocomplete,
+  Box,
+  Stepper,
+  Step,
+  StepLabel,
+  InputAdornment,
+  Typography,
+} from '@mui/material';
+import {
+  PersonOutline,
+  Email,
+  Phone,
+  LocationOn,
+  CalendarToday,
+  Wc,
+  Healing,
+  Warning,
+  LocalHospital,
+  NavigateNext,
+  NavigateBefore,
+} from '@mui/icons-material';
+import { Patient } from '../../types';
+
+interface PatientDialogProps {
+  open: boolean;
+  onClose: () => void;
+  patient: Patient | null;
+}
+
+const emptyPatient: Partial<Patient> = {
+  name: '',
+  email: '',
+  age: 0,
+  gender: 'other',
+  phone: '',
+  address: '',
+  medicalHistory: [],
+  allergies: [],
+  constitutionalAnalysis: {
+    prakriti: 'Vata',
+    vikriti: [],
+    doshaImbalance: [],
+  },
+};
+
+const doshaOptions = ['Vata', 'Pitta', 'Kapha', 'Vata-Pitta', 'Pitta-Kapha', 'Vata-Kapha', 'Tridoshic'];
+
+const PatientDialog: React.FC<PatientDialogProps> = ({ open, onClose, patient }) => {
+  const theme = useTheme();
+  const [formData, setFormData] = useState<Partial<Patient>>(emptyPatient);
+  const [activeStep, setActiveStep] = useState(0);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  useEffect(() => {
+    if (patient) {
+      setFormData(patient);
+    } else {
+      setFormData(emptyPatient);
+    }
+    setActiveStep(0);
+    setErrors({});
+  }, [patient, open]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = e.target;
+    setFormData(prev => ({ 
+      ...prev, 
+      [name]: type === 'number' ? (value === '' ? '' : Number(value)) : value 
+    }));
+    // Clear error when field is edited
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  const handleConstitutionalChange = (field: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      constitutionalAnalysis: {
+        ...(prev.constitutionalAnalysis || emptyPatient.constitutionalAnalysis!),
+        [field]: value
+      }
+    }));
+  };
+
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    // Basic info validation
+    if (!formData.name?.trim()) {
+      newErrors.name = 'Name is required';
+    }
+    if (!formData.email?.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)) {
+      newErrors.email = 'Invalid email address';
+    }
+    if (!formData.age || formData.age < 0) {
+      newErrors.age = 'Please enter a valid age';
+    }
+    if (!formData.phone?.trim()) {
+      newErrors.phone = 'Phone number is required';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNext = () => {
+    if (validateForm()) {
+      setActiveStep((prev) => prev + 1);
+    }
+  };
+
+  const handleBack = () => {
+    setActiveStep((prev) => prev - 1);
+  };
+
+  const handleSave = () => {
+    if (validateForm()) {
+      console.log('Saving:', formData);
+      onClose();
+    }
+  };
+
+  const steps = [
+    {
+      label: 'Basic Information',
+      content: (
+        <Grid container spacing={3} sx={{pt: 1}}>
+          <Grid item xs={12} sm={6}>
+            <TextField 
+              label="Name" 
+              name="name" 
+              value={formData.name || ''} 
+              onChange={handleChange} 
+              fullWidth
+              error={!!errors.name}
+              helperText={errors.name}
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <PersonOutline color="action" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField 
+              label="Email" 
+              name="email" 
+              value={formData.email || ''} 
+              onChange={handleChange} 
+              fullWidth
+              error={!!errors.email}
+              helperText={errors.email}
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Email color="action" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <TextField 
+              label="Age" 
+              name="age" 
+              type="number" 
+              value={formData.age || ''} 
+              onChange={handleChange} 
+              fullWidth
+              error={!!errors.age}
+              helperText={errors.age}
+              required
+              InputProps={{
+                inputProps: { min: 0 },
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <CalendarToday color="action" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <FormControl fullWidth required>
+              <InputLabel>Gender</InputLabel>
+              <Select
+                name="gender"
+                value={formData.gender || 'other'}
+                onChange={(e) => setFormData({...formData, gender: e.target.value as any})}
+                label="Gender"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <Wc color="action" />
+                  </InputAdornment>
+                }
+              >
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField 
+              label="Phone Number" 
+              name="phone" 
+              value={formData.phone || ''} 
+              onChange={handleChange} 
+              fullWidth
+              error={!!errors.phone}
+              helperText={errors.phone}
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Phone color="action" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField 
+              label="Address" 
+              name="address" 
+              value={formData.address || ''} 
+              onChange={handleChange} 
+              multiline 
+              rows={2} 
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LocationOn color="action" />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+        </Grid>
+      )
+    },
+                <FormControl fullWidth>
+                    <InputLabel>Prakriti (Constitution)</InputLabel>
+                    <Select value={formData.constitutionalAnalysis?.prakriti || ''} onChange={(e) => handleConstitutionalChange('prakriti', e.target.value)} label="Prakriti (Constitution)">
+                        {doshaOptions.map(d => <MenuItem key={d} value={d}>{d}</MenuItem>)}
+                    </Select>
+                </FormControl>
+            </Grid>
+             <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                    <InputLabel>Vikriti (Current Imbalance)</InputLabel>
+                    <Select
+                        multiple
+                        value={formData.constitutionalAnalysis?.vikriti || []}
+                        onChange={(e) => handleConstitutionalChange('vikriti', e.target.value)}
+                        renderValue={(selected) => (
+                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                            {(selected as string[]).map((value) => (
+                                <Chip key={value} label={value} />
+                            ))}
+                            </Box>
+                        )}
+                     >
+                        {doshaOptions.map(d => <MenuItem key={d} value={d}>{d}</MenuItem>)}
+                    </Select>
+                </FormControl>
+            </Grid>
+
+            {/* Medical History & Allergies */}
+             <Grid item xs={12} sm={6}>
+                 <Autocomplete
+                    multiple
+                    options={[]}
+                    freeSolo
+                    value={formData.medicalHistory || []}
+                    onChange={(event, newValue) => {
+                        setFormData({...formData, medicalHistory: newValue});
+                    }}
+                    renderTags={(value: readonly string[], getTagProps) =>
+                        value.map((option: string, index: number) => (
+                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                        ))
+                    }
+                    renderInput={(params) => (
+                        <TextField
+                        {...params}
+                        variant="outlined"
+                        label="Medical History"
+                        placeholder="Add conditions"
+                        />
+                    )}
+                    />
+            </Grid>
+             <Grid item xs={12} sm={6}>
+                 <Autocomplete
+                    multiple
+                    options={[]}
+                    freeSolo
+                    value={formData.allergies || []}
+                    onChange={(event, newValue) => {
+                        setFormData({...formData, allergies: newValue});
+                    }}
+                    renderTags={(value: readonly string[], getTagProps) =>
+                        value.map((option: string, index: number) => (
+                            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                        ))
+                    }
+                    renderInput={(params) => (
+                        <TextField
+                        {...params}
+                        variant="outlined"
+                        label="Allergies"
+                        placeholder="Add allergies"
+                        />
+                    )}
+                    />
+            </Grid>
+
+        </Grid>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleSave} variant="contained">{patient ? 'Save Changes' : 'Create Patient'}</Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+export default PatientDialog;
