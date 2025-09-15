@@ -1,5 +1,13 @@
 # NutriVeda - Comprehensive Ayurvedic Diet Management Platform
 
+![NutriVeda Logo](public/logo192.png)
+
+[![React](https://img.shields.io/badge/React-18.0.0-blue.svg)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue.svg)](https://www.typescriptlang.org/)
+[![Material UI](https://img.shields.io/badge/Material_UI-5.14.0-blue.svg)](https://mui.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Last Updated](https://img.shields.io/badge/Last_Updated-September_2025-green.svg)]()
+
 ## 🌟 Overview
 
 NutriVeda is a comprehensive cloud-based practice management and nutrient analysis software specifically designed for Ayurvedic dietitians. It integrates modern nutritional metrics with traditional Ayurvedic principles, enabling practitioners to create, manage, and deliver personalized diet charts in digital form.
@@ -72,15 +80,15 @@ NutriVeda is a comprehensive cloud-based practice management and nutrient analys
 ### Frontend
 - **React 18** with TypeScript
 - **Material-UI (MUI) 5** for modern UI components
-- **React Router** for navigation
+- **React Router v6** for navigation
 - **Context API** for state management
-- **Axios** for API calls
+- **Fetch API** for API calls
 
 ### Backend (Ready for Integration)
-- **Node.js/Express** or **Python/Django**
-- **PostgreSQL/MongoDB** for data storage
-- **Redis** for caching
-- **JWT** for authentication
+- **Node.js/Express** for REST API endpoints
+- **PostgreSQL** for primary data storage
+- **Redis** for caching and session management
+- **JWT** for secure authentication
 
 ### AI/ML Integration
 - **OCR processing** for prescription uploads
@@ -107,14 +115,14 @@ NutriVeda is a comprehensive cloud-based practice management and nutrient analys
 ## 🔧 Installation & Setup
 
 ### Prerequisites
-- Node.js 16+ 
-- npm or yarn
-- Modern web browser
+- Node.js 18+ 
+- npm 9+ or yarn 1.22+
+- Modern web browser (Chrome, Firefox, Safari, Edge)
 
 ### Quick Start
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/nutriveda.git
+git clone https://github.com/Doit-Ay/nutriveda.git
 
 # Navigate to project directory
 cd nutriveda
@@ -125,6 +133,9 @@ npm install
 # Start development server
 npm start
 
+# Run tests
+npm test
+
 # Open http://localhost:3000 in your browser
 ```
 
@@ -134,6 +145,8 @@ Create a `.env` file in the root directory:
 REACT_APP_API_URL=http://localhost:3001/api
 REACT_APP_OCR_API_KEY=your_ocr_api_key
 REACT_APP_AI_API_KEY=your_ai_api_key
+REACT_APP_STORAGE_URL=your_storage_url
+REACT_APP_AUTH_DOMAIN=your_auth_domain
 ```
 
 ## 📊 Database Schema
@@ -190,18 +203,18 @@ REACT_APP_AI_API_KEY=your_ai_api_key
 ## 📈 Analytics & Reporting
 
 ### Key Metrics
-- **Patient compliance rates**
-- **Diet plan effectiveness**
-- **Nutritional analysis trends**
-- **Ayurvedic compliance scores**
-- **Practitioner productivity**
+- **Patient compliance rates** with visualization dashboards
+- **Diet plan effectiveness** tracking over time
+- **Nutritional analysis trends** with comparative insights
+- **Ayurvedic compliance scores** with dosha balance tracking
+- **Practitioner productivity** and patient outcome metrics
 
 ### Report Types
-- **Patient Progress Reports**
-- **Diet Effectiveness Analysis**
-- **Nutritional Compliance Reports**
-- **Ayurvedic Assessment Reports**
-- **Custom Analytics Dashboards**
+- **Patient Progress Reports** with customizable templates
+- **Diet Effectiveness Analysis** with before/after comparisons
+- **Nutritional Compliance Reports** with daily/weekly/monthly views
+- **Ayurvedic Assessment Reports** with dosha evolution tracking
+- **Custom Analytics Dashboards** with exportable insights
 
 ## 🔒 Security Features
 
@@ -248,21 +261,25 @@ docker run -p 3000:3000 nutriveda
 
 ### Development Workflow
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+4. Run tests (`npm test`)
+5. Commit your changes (`git commit -m 'Add some amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
 
 ### Code Standards
-- **TypeScript** for type safety
-- **ESLint** for code quality
-- **Prettier** for code formatting
-- **Jest** for testing
-- **Storybook** for component documentation
+- **TypeScript** with strict type checking
+- **ESLint** with Airbnb configuration
+- **Prettier** for consistent code formatting
+- **Jest** and **React Testing Library** for unit and integration tests
+- **Storybook** for component documentation and visual testing
 
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Copyright (c) 2025 NutriVeda Health Technologies
 
 ## 🆘 Support
 
@@ -273,30 +290,31 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### Contact
 - **Email**: support@nutriveda.com
-- **Phone**: +1-800-NUTRI-VEDA
-- **Website**: https://nutriveda.com
+- **Phone**: +91-800-NUTRIVEDA
+- **Website**: https://nutriveda.health
+- **GitHub**: https://github.com/Doit-Ay/nutriveda
 
 ## 🔮 Roadmap
 
-### Phase 1 (Current)
+### Phase 1 (Completed Q3 2025)
 - ✅ Core platform development
 - ✅ Patient management system
 - ✅ Food database integration
 - ✅ Basic diet plan generation
 
-### Phase 2 (Q2 2024)
-- 🔄 AI-powered recommendations
+### Phase 2 (Current - Q3 2025)
+- ✅ AI-powered recommendations
 - 🔄 Advanced analytics
 - 🔄 Mobile app optimization
 - 🔄 Third-party integrations
 
-### Phase 3 (Q3 2024)
+### Phase 3 (Q4 2025)
 - 📋 Telemedicine integration
 - 📋 Wearable device sync
 - 📋 Advanced AI features
 - 📋 Multi-tenant architecture
 
-### Phase 4 (Q4 2024)
+### Phase 4 (Q1 2026)
 - 📋 Global expansion
 - 📋 Advanced reporting
 - 📋 Machine learning optimization
@@ -304,13 +322,21 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **Ministry of Ayush** for project support
-- **All India Institute of Ayurveda (AIIA)** for domain expertise
-- **Open source community** for amazing tools and libraries
-- **Beta testers** for valuable feedback
+- **Ministry of Ayush, Government of India** for project support and guidance
+- **All India Institute of Ayurveda (AIIA)** for domain expertise and content validation
+- **Open source community** for amazing tools and libraries that made this project possible
+- **Beta testers and early adopters** for valuable feedback and continued support
+- **React and Material-UI teams** for providing excellent documentation and components
 
 ---
 
-**Built with ❤️ for the Ayurvedic community**
-
-*Empowering practitioners to deliver personalized, science-backed, and tradition-rooted dietary care.*
+<div align="center">
+  <p><strong>Built with ❤️ for the Ayurvedic community</strong></p>
+  <p><em>Empowering practitioners to deliver personalized, science-backed, and tradition-rooted dietary care.</em></p>
+  <p>© 2025 NutriVeda Health Technologies</p>
+  <p>
+    <a href="https://github.com/Doit-Ay/nutriveda/stargazers">⭐ Star us on GitHub</a> •
+    <a href="https://nutriveda.health">Visit Website</a> •
+    <a href="mailto:support@nutriveda.com">Contact Support</a>
+  </p>
+</div>
