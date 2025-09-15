@@ -287,12 +287,6 @@ Copyright (c) 2025 NutriVeda Health Technologies
 - **User Guide**: Check the `/docs` folder
 - **Video Tutorials**: Available on our YouTube channel
 
-### Contact
-- **Email**: support@nutriveda.com
-- **Phone**: +91-800-NUTRIVEDA
-- **Website**: https://nutriveda.health
-- **GitHub**: https://github.com/Doit-Ay/nutriveda
-
 ## 🔮 Roadmap
 
 ### Phase 1 (Completed Q3 2025)
